@@ -1,21 +1,20 @@
+import { z } from "zod";
+
 export type Value = Readonly<{
-  valueKey: string;
+  videoId: string;
 }>;
 
+const valueSchema: z.Schema<Value | null> = z.object({
+  videoId: z.string(),
+}).nullable();
+
 export const parseValue = (input: string | null): Value | null | "invalidValue" => {
-  if (input === null) {
-    return null;
-  }
-
   try {
-    const parsedValue = JSON.parse(input);
+    const parsedValue = valueSchema.safeParse(JSON.parse(input ?? "null"));
 
-    return isValidValue(parsedValue) ? parsedValue : "invalidValue";
+    return parsedValue.success ? parsedValue.data : "invalidValue";
   }
   catch (e) {
     return "invalidValue";
   }
 };
-
-const isValidValue = (obj: Readonly<Record<string, unknown>>) =>
-  "valueKey" in obj;

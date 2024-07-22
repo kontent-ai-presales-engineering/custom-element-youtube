@@ -1,6 +1,5 @@
-export type Config = Readonly<{
-  textElementCodename: string;
-}>;
+import { z } from "zod";
 
-export const isConfig = (value: Readonly<Record<string, unknown>> | null) =>
-  value !== null; // use better check
+export type Config = Readonly<Record<string, never>>;
+
+export const configSchema: z.Schema<Config | null> = z.object({}).nullable();
