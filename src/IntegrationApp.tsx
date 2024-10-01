@@ -3,6 +3,7 @@ import { useIsDisabled, useValue } from './customElement/CustomElementContext';
 import getVideoId from 'get-video-id';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import { app, appInputs } from "./integrationApp.module.css";
 
 export const IntegrationApp = () => {
   const [elementValue, setElementValue] = useValue();
@@ -27,25 +28,30 @@ export const IntegrationApp = () => {
   const onRemoveVideoId = () => setElementValue(null);
 
   return (
-    <div>
-      <input
-        type="text"
-        value={videoIdInput ?? ""}
-        onChange={(e) => setVideoIdInput(e.target.value)}
-        disabled={isDisabled}
-      />
-      <button onClick={onVideoIdChange} disabled={isDisabled}>Change video id</button>
-      <button onClick={onRemoveVideoId} disabled={isDisabled}>Remove video id</button>
-      {elementValue?.videoId
-        ? (
-          <LiteYouTubeEmbed
-            id={elementValue.videoId}
-            title="YouTube video"
-          />)
-        : (
-          <p>No video id set</p>
-        )}
-    </div>
+    <main className={app}>
+      <section className={appInputs}>
+        <input
+          type="text"
+          className={`input ${isDisabled ? "disabled" : ""}`}
+          value={videoIdInput ?? ""}
+          onChange={(e) => setVideoIdInput(e.target.value)}
+          disabled={isDisabled}
+        />
+        <button className="button primary" onClick={onVideoIdChange} disabled={isDisabled}>Change video id</button>
+        <button className="button destructive" onClick={onRemoveVideoId} disabled={isDisabled}>Remove video id</button>
+      </section>
+      <section className="section">
+        {elementValue?.videoId
+          ? (
+            <LiteYouTubeEmbed
+              id={elementValue.videoId}
+              title="YouTube video"
+            />)
+          : (
+            <p>No video id set</p>
+          )}
+      </section>
+    </main>
   );
 };
 

@@ -1,0 +1,11 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.app__inputs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
